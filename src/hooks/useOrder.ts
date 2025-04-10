@@ -42,15 +42,22 @@ export const useOrder = (initialOrder?: Order | null) => {
         0
       );
 
-      const paymentFees = calculatePaymentFees(paymentMethod.id, subtotal);
-
+      const shippingAmount = isFreeShipping ? 0 : shippingMethod.cost;
       const discountAmount = discount
         ? discount.type === 'percentage'
           ? (subtotal * discount.value) / 100
           : discount.value
         : 0;
 
-      const total = subtotal - discountAmount + (isFreeShipping ? 0 : shippingMethod.cost);
+      // Calculate payment fees based on the final amount charged to the customer
+      const paymentFees = calculatePaymentFees(
+        paymentMethod.id,
+        subtotal,
+        shippingAmount,
+        discountAmount
+      );
+
+      const total = subtotal + shippingAmount - discountAmount + paymentFees;
       const netProfit = total - totalCost - shippingMethod.cost - paymentFees;
 
       setOrder({

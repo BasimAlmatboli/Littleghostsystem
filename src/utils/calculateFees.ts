@@ -1,14 +1,19 @@
 export const calculatePaymentFees = (
   paymentMethodId: string,
-  amount: number
+  amount: number,
+  shippingCost: number = 0,
+  discountAmount: number = 0
 ): number => {
+  // Calculate the total amount that will be charged to the customer
+  const totalAmountCharged = amount + shippingCost - discountAmount;
+
   switch (paymentMethodId) {
     case 'mada':
-      return calculateMadaFees(amount);
+      return calculateMadaFees(totalAmountCharged);
     case 'visa':
-      return calculateVisaFees(amount);
+      return calculateVisaFees(totalAmountCharged);
     case 'tamara':
-      return calculateTamaraFees(amount);
+      return calculateTamaraFees(totalAmountCharged);
     case 'cash':
       return 0; // No fees for cash payments
     default:
