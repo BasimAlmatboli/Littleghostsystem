@@ -2,6 +2,7 @@ import React from 'react';
 import { Order } from '../types';
 import { calculateTotalProfitShare } from '../utils/profitSharing';
 import { EarningsReport } from './EarningsReport';
+import { calculatePaymentFees } from '../utils/calculateFees';
 
 interface OrderSummaryProps {
   order: Order;
@@ -25,6 +26,9 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
       ? (order.subtotal * order.discount.value) / 100
       : order.discount.value
     : 0;
+
+  // Calculate the actual total paid by customer
+  const customerTotal = order.subtotal + (order.isFreeShipping ? 0 : order.shippingCost) - discountAmount;
   
   // Calculate detailed profit sharing
   const profitSharing = calculateTotalProfitShare(
@@ -34,6 +38,20 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
     discountAmount,
     order.isFreeShipping
   );
+
+  // Get payment fee percentage for display
+  const getPaymentFeePercentage = () => {
+    switch (order.paymentMethod.id) {
+      case 'mada':
+        return '1% + 1 SAR + 15% VAT';
+      case 'visa':
+        return '2.2% + 1 SAR + 15% VAT';
+      case 'tamara':
+        return '7% + 1.5 SAR + 15% VAT';
+      default:
+        return '0%';
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -84,8 +102,29 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
         
         <div className="flex justify-between font-semibold">
           <span>Total</span>
-          <span>{order.total.toFixed(2)} SAR</span>
+          <span>{customerTotal.toFixed(2)} SAR</span>
         </div>
+
+        {/* Payment Fee Breakdown */}
+        {order.paymentMethod.id !== 'cash' && (
+          <div className="mt-4 bg-blue-50 rounded-lg p-3 space-y-2">
+            <h4 className="font-medium text-blue-800">Payment Fee Breakdown</h4>
+            <div className="space-y-1 text-sm">
+              <div className="grid grid-cols-2 gap-2">
+                <div className="text-blue-700">Base Amount for Fee:</div>
+                <div className="text-right font-medium">{customerTotal.toFixed(2)} SAR</div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="text-blue-700">Fee Rate:</div>
+                <div className="text-right font-medium">{getPaymentFeePercentage()}</div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="text-blue-700">Calculated Fee:</div>
+                <div className="text-right font-medium">{order.paymentFees.toFixed(2)} SAR</div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Detailed Profit Sharing Breakdown */}
         <div className="mt-6 space-y-4">
@@ -121,7 +160,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
                   </div>
                   
                   <div className="mt-2 pt-2 border-t border-gray-200">
-                    <div className="grid grid-cols-3 gap-2 text-sm">
+                    <div className="grid grid-cols-4 gap-2 text-sm">
                       <div>
                         <div className="text-gray-600">Yassir's Share</div>
                         <div className="font-medium text-blue-600">{share.yassirShare.toFixed(2)} SAR</div>
@@ -134,6 +173,10 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
                         <div className="text-gray-600">Manal's Share</div>
                         <div className="font-medium text-purple-600">{share.manalShare.toFixed(2)} SAR</div>
                       </div>
+                      <div>
+                        <div className="text-gray-600">Abbas's Share</div>
+                        <div className="font-medium text-orange-600">{share.abbasShare.toFixed(2)} SAR</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -144,7 +187,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
           {/* Total Shares */}
           <div className="bg-indigo-50 rounded-md p-3">
             <div className="font-medium text-indigo-800 mb-2">Total Shares</div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-4 gap-4">
               <div>
                 <div className="text-sm text-indigo-600">Yassir's Total Share</div>
                 <div className="text-lg font-bold text-indigo-700">
@@ -163,6 +206,12 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
                   {profitSharing.totalManalShare.toFixed(2)} SAR
                 </div>
               </div>
+              <div>
+                <div className="text-sm text-orange-600">Abbas's Total Share</div>
+                <div className="text-lg font-bold text-orange-700">
+                  {profitSharing.totalAbbasShare.toFixed(2)} SAR
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -173,6 +222,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
           totalYassirShare={profitSharing.totalYassirShare}
           totalAhmedShare={profitSharing.totalAhmedShare}
           totalManalShare={profitSharing.totalManalShare}
+          totalAbbasShare={profitSharing.totalAbbasShare}
         />
       </div>
     </div>

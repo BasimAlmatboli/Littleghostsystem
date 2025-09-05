@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   cost: number;
   sellingPrice: number;
-  owner: 'yassir' | 'yassir-ahmed' | 'yassir-manal';
+  owner: 'yassir' | 'yassir-ahmed' | 'yassir-manal' | 'yassir-abbas';
 }
 
 export interface ShippingMethod {

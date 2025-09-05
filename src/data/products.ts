@@ -2,60 +2,102 @@ import { Product } from '../types';
 
 const defaultProducts: Product[] = [
 {
-    id: 'BLACK-TEE-LAZY-GHOST',
+    id: 'LAZY GHOST T-SHIRT',
     name: 'LAZY GHOST T-SHIRT',
     cost: 70,
     sellingPrice: 149,
     owner: 'yassir-ahmed'  // Co-owned by Yassir and Ahmed
   },
   {
-    id: 'DARK-GREEN-TEE-BOLD-RABEL',
+    id: 'DARK GREEN T-SHIRT',
     name: 'DARK GREEN T-SHIRT',
     cost: 70,
     sellingPrice: 149,
     owner: 'yassir-ahmed'  // Co-owned by Yassir and Ahmed
   },
   {
-    id: 'OFF-WHITE-TEE-GHOST',
+    id: 'OFF WHITE T-SHIRT',
     name: 'OFF WHITE T-SHIRT',
     cost: 70,
     sellingPrice: 159,
     owner: 'yassir-ahmed'  // Co-owned by Yassir and Ahmed
   }, 
   {
-    id: 'BLACK-TEE-ROSE',
+    id: 'TEE ROSE T-SHIRT',
     name: 'TEE ROSE T-SHIRT',
     cost: 70,
     sellingPrice: 149,
     owner: 'yassir-ahmed'  // Co-owned by Yassir and Ahmed
   },
   {
-    id: 'BLACK-HOODIE',
+    id: 'BLACK HOODIE',
     name: 'BLACK HOODIE',
     cost: 40,
     sellingPrice: 189,
     owner: 'yassir-manal'  // Co-owned by Yassir and Manal
   },
   {
-    id: 'PINK-HOODIE',
+    id: 'PINK HOODIE',
     name: 'PINK HOODIE',
     cost: 40,
     sellingPrice: 169,
     owner: 'yassir-manal'  // Co-owned by Yassir and Manal
   },
   {
-    id: 'BABY-BLUE-HOODIE',
+    id: 'BABY BLUE HOODIE',
     name: 'BABY BLUE HOODIE',
     cost: 40,
     sellingPrice: 189,
     owner: 'yassir-manal'  // Co-owned by Yassir and Manal
   }, 
   {
-    id: 'DARK-GREEY-HOODIE',
+    id: 'DARK GREEY HOODIE',
     name: 'DARK GREEY HOODIE',
     cost: 40,
     sellingPrice: 189,
     owner: 'yassir-manal'  // Co-owned by Yassir and Manal
+  },
+  {
+    id: 'Black T-SHIRT',
+    name: 'Black T-SHIRT',
+    cost: 40,
+    sellingPrice: 189,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+  {
+    id: 'Creamy T-SHIRT',
+    name: 'Creamy T-SHIRT',
+    cost: 40,
+    sellingPrice: 189,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+    {
+    id: 'Black Short',
+    name: 'Black Short',
+    cost: 40,
+    sellingPrice: 189,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+    {
+    id: 'Green Short',
+    name: 'Green Short',
+    cost: 40,
+    sellingPrice: 189,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+    {
+    id: 'Blue Short',
+    name: 'Blue Short',
+    cost: 40,
+    sellingPrice: 189,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+    {
+    id: 'Gray Short',
+    name: 'Gray Short',
+    cost: 40,
+    sellingPrice: 189,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
 ];
 

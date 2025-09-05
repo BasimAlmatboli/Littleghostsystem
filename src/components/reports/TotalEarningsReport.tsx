@@ -29,25 +29,30 @@ export const TotalEarningsReport: React.FC<TotalEarningsReportProps> = ({ orders
       order.items,
       profitSharing.totalYassirShare,
       profitSharing.totalAhmedShare,
-      profitSharing.totalManalShare
+      profitSharing.totalManalShare,
+      profitSharing.totalAbbasShare
     );
 
     return {
       yassirProductsCost: acc.yassirProductsCost + earnings.yassirProductsCost,
       ahmedProductsCost: acc.ahmedProductsCost + earnings.ahmedProductsCost,
       manalProductsCost: acc.manalProductsCost + earnings.manalProductsCost,
+      abbasProductsCost: acc.abbasProductsCost + earnings.abbasProductsCost,
       yassirTotalEarnings: acc.yassirTotalEarnings + earnings.yassirTotalEarnings,
       ahmedTotalEarnings: acc.ahmedTotalEarnings + earnings.ahmedTotalEarnings,
       manalTotalEarnings: acc.manalTotalEarnings + earnings.manalTotalEarnings,
+      abbasTotalEarnings: acc.abbasTotalEarnings + earnings.abbasTotalEarnings,
       combinedTotalEarnings: acc.combinedTotalEarnings + earnings.combinedTotalEarnings,
     };
   }, {
     yassirProductsCost: 0,
     ahmedProductsCost: 0,
     manalProductsCost: 0,
+    abbasProductsCost: 0,
     yassirTotalEarnings: 0,
     ahmedTotalEarnings: 0,
     manalTotalEarnings: 0,
+    abbasTotalEarnings: 0,
     combinedTotalEarnings: 0,
   });
 
@@ -112,6 +117,21 @@ export const TotalEarningsReport: React.FC<TotalEarningsReportProps> = ({ orders
             <div>
               <span className="text-purple-600">Total Earnings:</span>
               <span className="ml-2 font-medium">{totalEarningsData.manalTotalEarnings.toFixed(2)} SAR</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Abbas's Earnings */}
+        <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-lg p-6">
+          <h3 className="text-lg font-medium text-orange-800 mb-4">Abbas's Total Earnings</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <span className="text-orange-600">Products Cost:</span>
+              <span className="ml-2 font-medium">{totalEarningsData.abbasProductsCost.toFixed(2)} SAR</span>
+            </div>
+            <div>
+              <span className="text-orange-600">Total Earnings:</span>
+              <span className="ml-2 font-medium">{totalEarningsData.abbasTotalEarnings.toFixed(2)} SAR</span>
             </div>
           </div>
         </div>

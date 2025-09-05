@@ -8,6 +8,7 @@ interface EarningsReportProps {
   totalYassirShare: number;
   totalAhmedShare: number;
   totalManalShare: number;
+  totalAbbasShare: number;
 }
 
 export const EarningsReport: React.FC<EarningsReportProps> = ({
@@ -15,8 +16,9 @@ export const EarningsReport: React.FC<EarningsReportProps> = ({
   totalYassirShare,
   totalAhmedShare,
   totalManalShare,
+  totalAbbasShare,
 }) => {
-  const earnings = calculateTotalEarnings(items, totalYassirShare, totalAhmedShare, totalManalShare);
+  const earnings = calculateTotalEarnings(items, totalYassirShare, totalAhmedShare, totalManalShare, totalAbbasShare);
 
   return (
     <div className="mt-6 space-y-4">
@@ -82,6 +84,26 @@ export const EarningsReport: React.FC<EarningsReportProps> = ({
           <div className="mt-2 pt-2 border-t border-purple-100">
             <span className="text-lg font-bold text-purple-800">
               Total: {earnings.manalTotalEarnings.toFixed(2)} SAR
+            </span>
+          </div>
+        </div>
+
+        {/* Abbas's Earnings */}
+        <div className="space-y-2">
+          <h4 className="text-orange-800 font-medium">Abbas's Total Earnings</h4>
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span className="text-orange-600">Profit Share:</span>
+              <span className="ml-2 font-medium">{totalAbbasShare.toFixed(2)} SAR</span>
+            </div>
+            <div>
+              <span className="text-orange-600">Products Cost:</span>
+              <span className="ml-2 font-medium">{earnings.abbasProductsCost.toFixed(2)} SAR</span>
+            </div>
+          </div>
+          <div className="mt-2 pt-2 border-t border-orange-100">
+            <span className="text-lg font-bold text-orange-800">
+              Total: {earnings.abbasTotalEarnings.toFixed(2)} SAR
             </span>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import { OrderItem } from '../../types';
 import { ProfitShare, ItemProfitDetails, TotalProfitShare } from './types';
-import { getYassirPercentage, getAhmedPercentage, getManalPercentage } from './percentages';
+import { getYassirPercentage, getAhmedPercentage, getManalPercentage, getAbbasPercentage } from './percentages';
 import { 
   calculateItemRevenue, 
   calculateTotalRevenue,
@@ -37,9 +37,10 @@ export const calculateItemProfit = (
   const netProfit = total - cost - expenseShare;
   
   // Calculate shares
-  const yassirShare = netProfit * getYassirPercentage(item.product.name);
-  const ahmedShare = netProfit * getAhmedPercentage(item.product.name);
-  const manalShare = netProfit * getManalPercentage(item.product.name);
+  const yassirShare = netProfit * getYassirPercentage(item.product.owner);
+  const ahmedShare = netProfit * getAhmedPercentage(item.product.owner);
+  const manalShare = netProfit * getManalPercentage(item.product.owner);
+  const abbasShare = netProfit * getAbbasPercentage(item.product.owner);
   
   return {
     total,
@@ -49,7 +50,8 @@ export const calculateItemProfit = (
     netProfit,
     yassirShare,
     ahmedShare,
-    manalShare
+    manalShare,
+    abbasShare,
   };
 };
 
@@ -94,11 +96,17 @@ export const calculateTotalProfitShare = (
     0
   );
   
+  const totalAbbasShare = itemShares.reduce(
+    (sum, share) => sum + share.abbasShare,
+    0
+  );
+  
   return {
     totalWithShipping,
     itemShares,
     totalYassirShare,
     totalAhmedShare,
-    totalManalShare
+    totalManalShare,
+    totalAbbasShare,
   };
 };

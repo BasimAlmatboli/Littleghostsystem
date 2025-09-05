@@ -23,6 +23,8 @@ export const ProductList: React.FC<ProductListProps> = ({
         return 'Yassir & Ahmed';
       case 'yassir-manal':
         return 'Yassir & Manal';
+      case 'yassir-abbas':
+        return 'Yassir & Abbas';
       default:
         return 'Yassir';
     }
@@ -93,6 +95,7 @@ export const ProductList: React.FC<ProductListProps> = ({
                   <option value="yassir">Yassir</option>
                   <option value="yassir-ahmed">Yassir & Ahmed</option>
                   <option value="yassir-manal">Yassir & Manal</option>
+                  <option value="yassir-abbas">Yassir & Abbas</option>
                 </select>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
