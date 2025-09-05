@@ -160,7 +160,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
                   </div>
                   
                   <div className="mt-2 pt-2 border-t border-gray-200">
-                    <div className="grid grid-cols-3 gap-2 text-sm">
+                    <div className="grid grid-cols-4 gap-2 text-sm">
                       <div>
                         <div className="text-gray-600">Yassir's Share</div>
                         <div className="font-medium text-blue-600">{share.yassirShare.toFixed(2)} SAR</div>
@@ -173,6 +173,10 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
                         <div className="text-gray-600">Manal's Share</div>
                         <div className="font-medium text-purple-600">{share.manalShare.toFixed(2)} SAR</div>
                       </div>
+                      <div>
+                        <div className="text-gray-600">Abbas's Share</div>
+                        <div className="font-medium text-orange-600">{share.abbasShare.toFixed(2)} SAR</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -183,7 +187,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
           {/* Total Shares */}
           <div className="bg-indigo-50 rounded-md p-3">
             <div className="font-medium text-indigo-800 mb-2">Total Shares</div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-4 gap-4">
               <div>
                 <div className="text-sm text-indigo-600">Yassir's Total Share</div>
                 <div className="text-lg font-bold text-indigo-700">
@@ -202,6 +206,12 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
                   {profitSharing.totalManalShare.toFixed(2)} SAR
                 </div>
               </div>
+              <div>
+                <div className="text-sm text-orange-600">Abbas's Total Share</div>
+                <div className="text-lg font-bold text-orange-700">
+                  {profitSharing.totalAbbasShare.toFixed(2)} SAR
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -212,6 +222,7 @@ export const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
           totalYassirShare={profitSharing.totalYassirShare}
           totalAhmedShare={profitSharing.totalAhmedShare}
           totalManalShare={profitSharing.totalManalShare}
+          totalAbbasShare={profitSharing.totalAbbasShare}
         />
       </div>
     </div>

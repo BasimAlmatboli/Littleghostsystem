@@ -62,42 +62,42 @@ const defaultProducts: Product[] = [
     name: 'Black T-SHIRT',
     cost: 40,
     sellingPrice: 189,
-    owner: 'yassir-manal'  // Co-owned by Yassir and Manal
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
   {
     id: 'Creamy T-SHIRT',
     name: 'Creamy T-SHIRT',
     cost: 40,
     sellingPrice: 189,
-    owner: 'yassir-manal'  // Co-owned by Yassir and Manal
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
     {
     id: 'Black Short',
     name: 'Black Short',
     cost: 40,
     sellingPrice: 189,
-    owner: 'yassir-manal'  // Co-owned by Yassir and Manal
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
     {
     id: 'Green Short',
     name: 'Green Short',
     cost: 40,
     sellingPrice: 189,
-    owner: 'yassir-manal'  // Co-owned by Yassir and Manal
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
     {
     id: 'Blue Short',
     name: 'Blue Short',
     cost: 40,
     sellingPrice: 189,
-    owner: 'yassir-manal'  // Co-owned by Yassir and Manal
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
     {
     id: 'Gray Short',
     name: 'Gray Short',
     cost: 40,
     sellingPrice: 189,
-    owner: 'yassir-manal'  // Co-owned by Yassir and Manal
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
 ];
 
