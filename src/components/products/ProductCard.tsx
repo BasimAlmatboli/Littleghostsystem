@@ -21,6 +21,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         return 'Yassir & Ahmed';
       case 'yassir-manal':
         return 'Yassir & Manal';
+      case 'yassir-abbas':
+        return 'Yassir & Abbas';
       default:
         return 'Yassir';
     }

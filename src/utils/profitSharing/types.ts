@@ -2,6 +2,7 @@ export interface ProfitShare {
   yassirShare: number;
   ahmedShare: number;
   manalShare: number;
+  abbasShare: number;
 }
 
 export interface ItemProfitDetails {
@@ -13,6 +14,7 @@ export interface ItemProfitDetails {
   yassirShare: number;
   ahmedShare: number;
   manalShare: number;
+  abbasShare: number;
 }
 
 export interface TotalProfitShare {
@@ -21,4 +23,5 @@ export interface TotalProfitShare {
   totalYassirShare: number;
   totalAhmedShare: number;
   totalManalShare: number;
+  totalAbbasShare: number;
 }

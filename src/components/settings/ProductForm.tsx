@@ -7,7 +7,7 @@ export const ProductForm = () => {
   const [name, setName] = useState('');
   const [cost, setCost] = useState('');
   const [sellingPrice, setSellingPrice] = useState('');
-  const [owner, setOwner] = useState<'yassir' | 'yassir-ahmed' | 'yassir-manal'>('yassir');
+  const [owner, setOwner] = useState<'yassir' | 'yassir-ahmed' | 'yassir-manal' | 'yassir-abbas'>('yassir');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,12 +97,13 @@ export const ProductForm = () => {
           <select
             id="owner"
             value={owner}
-            onChange={(e) => setOwner(e.target.value as 'yassir' | 'yassir-ahmed' | 'yassir-manal')}
+            onChange={(e) => setOwner(e.target.value as 'yassir' | 'yassir-ahmed' | 'yassir-manal' | 'yassir-abbas')}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
           >
             <option value="yassir">Yassir</option>
             <option value="yassir-ahmed">Yassir & Ahmed (T-shirts)</option>
             <option value="yassir-manal">Yassir & Manal (Hoodies)</option>
+            <option value="yassir-abbas">Yassir & Abbas</option>
           </select>
         </div>
 
