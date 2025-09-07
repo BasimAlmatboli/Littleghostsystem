@@ -19,7 +19,7 @@ const defaultShippingMethods: ShippingMethod[] = [
   {
     id: 'smsa',
     name: 'SMSA',
-    cost: 27,
+    cost: 29,
   },
 ];
 
