@@ -34,6 +34,7 @@ export const Calculator = () => {
     setDiscount,
     order,
     setInitialOrder,
+    setShippingMethodCost,
   } = useOrder();
 
   // Load existing order if editing
@@ -172,6 +173,7 @@ export const Calculator = () => {
           <ShippingSelect
             selected={shippingMethod}
             onSelect={setShippingMethod}
+            onShippingMethodCostChange={setShippingMethodCost}
             isFreeShipping={isFreeShipping}
             onFreeShippingChange={setIsFreeShipping}
           />

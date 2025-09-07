@@ -5,6 +5,7 @@ import { getShippingMethods } from '../data/shipping';
 interface ShippingSelectProps {
   selected: ShippingMethod | null;
   onSelect: (method: ShippingMethod) => void;
+  onShippingMethodCostChange: (cost: number) => void;
   isFreeShipping: boolean;
   onFreeShippingChange: (value: boolean) => void;
 }
@@ -12,6 +13,7 @@ interface ShippingSelectProps {
 export const ShippingSelect: React.FC<ShippingSelectProps> = ({
   selected,
   onSelect,
+  onShippingMethodCostChange,
   isFreeShipping,
   onFreeShippingChange,
 }) => {
@@ -64,6 +66,40 @@ export const ShippingSelect: React.FC<ShippingSelectProps> = ({
           </label>
         ))}
       </div>
+      
+      {/* Manual Cost Override */}
+      {selected && (
+        <div className="mt-4 bg-blue-50 rounded-lg p-4">
+          <h3 className="text-sm font-medium text-blue-800 mb-2">
+            Customize Shipping Cost (This Order Only)
+          </h3>
+          <div className="flex items-center space-x-4">
+            <div className="flex-1">
+              <label className="block text-sm text-blue-700 mb-1">
+                Shipping Cost (SAR)
+              </label>
+              <input
+                type="number"
+                value={selected.cost}
+                onChange={(e) => onShippingMethodCostChange(Number(e.target.value) || 0)}
+                disabled={isFreeShipping}
+                className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                  isFreeShipping ? 'bg-gray-100 text-gray-500' : 'bg-white'
+                }`}
+                step="0.01"
+                min="0"
+              />
+            </div>
+            <div className="text-sm text-blue-600">
+              {isFreeShipping ? (
+                <span className="text-green-600 font-medium">Free shipping applied</span>
+              ) : (
+                <span>Customer pays: {selected.cost} SAR</span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

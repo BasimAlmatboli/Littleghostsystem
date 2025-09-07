@@ -18,6 +18,16 @@ export const useOrder = (initialOrder?: Order | null) => {
   const [order, setOrder] = useState<Order | null>(initialOrder || null);
   const [currentOrderId, setCurrentOrderId] = useState<string | null>(initialOrder?.id || null);
 
+  // Function to update shipping method cost for this order only
+  const setShippingMethodCost = (cost: number) => {
+    if (shippingMethod) {
+      setShippingMethod({
+        ...shippingMethod,
+        cost
+      });
+    }
+  };
+
   // Function to set initial order data
   const setInitialOrder = (order: Order) => {
     setCurrentOrderId(order.id);
@@ -50,14 +60,19 @@ export const useOrder = (initialOrder?: Order | null) => {
         : 0;
 
       // Calculate payment fees based on the final amount charged to the customer
+      const customerTotal = subtotal + shippingAmount - discountAmount;
       const paymentFees = calculatePaymentFees(
         paymentMethod.id,
-        subtotal,
-        shippingAmount,
-        discountAmount
+        customerTotal
       );
 
-      const total = subtotal + shippingAmount - discountAmount + paymentFees;
+      // Total is what the customer actually pays (excluding internal payment fees)
+      const total = customerTotal;
+      
+      // Net profit calculation: subtract all business costs from customer payment
+      // - totalCost: cost of products
+      // - shippingMethod.cost: actual shipping cost to business (even if customer got free shipping)
+      // - paymentFees: payment processing fees
       const netProfit = total - totalCost - shippingMethod.cost - paymentFees;
 
       setOrder({
@@ -98,5 +113,6 @@ export const useOrder = (initialOrder?: Order | null) => {
     setDiscount,
     order,
     setInitialOrder,
+    setShippingMethodCost,
   };
 };

@@ -4,30 +4,30 @@ const defaultProducts: Product[] = [
 {
     id: 'LAZY GHOST T-SHIRT',
     name: 'LAZY GHOST T-SHIRT',
-    cost: 70,
+    cost: 41,
     sellingPrice: 149,
-    owner: 'yassir-ahmed'  // Co-owned by Yassir and Ahmed
+    owner: 'yassir'  // 100% owned by Yassir
   },
   {
     id: 'DARK GREEN T-SHIRT',
     name: 'DARK GREEN T-SHIRT',
-    cost: 70,
+    cost: 45,
     sellingPrice: 149,
-    owner: 'yassir-ahmed'  // Co-owned by Yassir and Ahmed
+    owner: 'yassir'  // 100% owned by Yassir
   },
   {
     id: 'OFF WHITE T-SHIRT',
     name: 'OFF WHITE T-SHIRT',
-    cost: 70,
+    cost: 45,
     sellingPrice: 159,
-    owner: 'yassir-ahmed'  // Co-owned by Yassir and Ahmed
+    owner: 'yassir'  // 100% owned by Yassir
   }, 
   {
     id: 'TEE ROSE T-SHIRT',
     name: 'TEE ROSE T-SHIRT',
-    cost: 70,
+    cost: 45,
     sellingPrice: 149,
-    owner: 'yassir-ahmed'  // Co-owned by Yassir and Ahmed
+    owner: 'yassir'  // 100% owned by Yassir
   },
   {
     id: 'BLACK HOODIE',
@@ -60,43 +60,43 @@ const defaultProducts: Product[] = [
   {
     id: 'Black T-SHIRT',
     name: 'Black T-SHIRT',
-    cost: 40,
-    sellingPrice: 189,
+    cost: 37,
+    sellingPrice: 179,
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
   {
     id: 'Creamy T-SHIRT',
     name: 'Creamy T-SHIRT',
-    cost: 40,
-    sellingPrice: 189,
+    cost: 37,
+    sellingPrice: 179,
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
     {
     id: 'Black Short',
     name: 'Black Short',
-    cost: 40,
-    sellingPrice: 189,
+    cost: 52,
+    sellingPrice: 179,
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
     {
     id: 'Green Short',
     name: 'Green Short',
-    cost: 40,
-    sellingPrice: 189,
+    cost: 52,
+    sellingPrice: 179,
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
     {
     id: 'Blue Short',
     name: 'Blue Short',
-    cost: 40,
-    sellingPrice: 189,
+    cost: 52,
+    sellingPrice: 179,
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
     {
     id: 'Gray Short',
     name: 'Gray Short',
-    cost: 40,
-    sellingPrice: 189,
+    cost: 52,
+    sellingPrice: 179,
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
 ];
