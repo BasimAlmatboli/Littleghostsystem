@@ -35,8 +35,8 @@ export const calculateTotalEarnings = (
         acc.manalCost += itemTotalCost * 0.5;
       } else if (item.product.owner === 'yassir-abbas') {
         // Products are co-owned by Yassir and Abbas (split costs 60/40)
-        acc.yassirCost += itemTotalCost * 0.6;
-        acc.abbasCost += itemTotalCost * 0.4;
+        acc.yassirCost += itemTotalCost * 0.5;
+        acc.abbasCost += itemTotalCost * 0.5;
       } else {
         // All other products are Yassir's
         acc.yassirCost += itemTotalCost;
