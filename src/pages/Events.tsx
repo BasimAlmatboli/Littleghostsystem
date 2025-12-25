@@ -3,9 +3,10 @@ import { useOrder } from '../hooks/useOrder';
 import { saveOrder } from '../services/orderService';
 import { getProducts } from '../data/products';
 import { getShippingMethods } from '../data/shipping';
+import { getPaymentMethods } from '../data/payments';
 import { generateRandomOrderNumber } from '../utils/generateOrderNumber';
 import { OrderConfirmationModal } from '../components/events/OrderConfirmationModal';
-import { Loader2, RotateCcw, Plus, Minus, Trash2, Tag } from 'lucide-react';
+import { Loader2, RotateCcw, Plus, Minus, Trash2, Tag, Check } from 'lucide-react';
 import { Product, OrderItem } from '../types';
 
 export const Events = () => {
@@ -14,6 +15,8 @@ export const Events = () => {
   const [savedOrder, setSavedOrder] = useState<any>(null);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [showDiscountSection, setShowDiscountSection] = useState(false);
+  const [showPaymentMenu, setShowPaymentMenu] = useState(false);
+  const [availablePaymentMethods, setAvailablePaymentMethods] = useState([]);
 
   const {
     orderNumber,
@@ -44,7 +47,9 @@ export const Events = () => {
       setShippingMethod(noShipping);
     }
 
-    const defaultPayment = { id: 'mada' as const, name: 'MADA' };
+    const paymentMethods = getPaymentMethods();
+    setAvailablePaymentMethods(paymentMethods);
+    const defaultPayment = paymentMethods.find(m => m.id === 'mada') || paymentMethods[0];
     if (!paymentMethod) {
       setPaymentMethod(defaultPayment);
     }
@@ -188,20 +193,32 @@ export const Events = () => {
               <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
                 <h3 className="text-lg font-bold text-gray-900 mb-4">T-Shirts</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                  {tShirts.map((product) => (
-                    <button
-                      key={product.id}
-                      onClick={() => handleAddProduct(product)}
-                      className="bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 border-2 border-blue-200 rounded-lg p-3 transition-all hover:shadow-md active:scale-95"
-                    >
-                      <p className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
-                        {product.name}
-                      </p>
-                      <p className="text-sm font-bold text-blue-600">
-                        {product.sellingPrice} SAR
-                      </p>
-                    </button>
-                  ))}
+                  {tShirts.map((product) => {
+                    const itemInOrder = orderItems.find(item => item.product.id === product.id);
+                    return (
+                      <button
+                        key={product.id}
+                        onClick={() => handleAddProduct(product)}
+                        className={`border-2 rounded-lg p-3 transition-all hover:shadow-md active:scale-95 relative ${
+                          itemInOrder
+                            ? 'bg-blue-100 to-blue-200 border-blue-500 shadow-md'
+                            : 'bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 border-blue-200'
+                        }`}
+                      >
+                        <p className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
+                          {product.name}
+                        </p>
+                        <p className="text-sm font-bold text-blue-600">
+                          {product.sellingPrice} SAR
+                        </p>
+                        {itemInOrder && (
+                          <div className="absolute top-2 right-2 flex items-center gap-1 bg-blue-600 text-white rounded-full w-6 h-6 justify-center text-xs font-bold">
+                            {itemInOrder.quantity}
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -211,20 +228,32 @@ export const Events = () => {
               <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
                 <h3 className="text-lg font-bold text-gray-900 mb-4">Hoodies</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                  {hoodies.map((product) => (
-                    <button
-                      key={product.id}
-                      onClick={() => handleAddProduct(product)}
-                      className="bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 border-2 border-purple-200 rounded-lg p-3 transition-all hover:shadow-md active:scale-95"
-                    >
-                      <p className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
-                        {product.name}
-                      </p>
-                      <p className="text-sm font-bold text-purple-600">
-                        {product.sellingPrice} SAR
-                      </p>
-                    </button>
-                  ))}
+                  {hoodies.map((product) => {
+                    const itemInOrder = orderItems.find(item => item.product.id === product.id);
+                    return (
+                      <button
+                        key={product.id}
+                        onClick={() => handleAddProduct(product)}
+                        className={`border-2 rounded-lg p-3 transition-all hover:shadow-md active:scale-95 relative ${
+                          itemInOrder
+                            ? 'bg-amber-100 to-amber-200 border-amber-600 shadow-md'
+                            : 'bg-gradient-to-br from-amber-50 to-amber-100 hover:from-amber-100 hover:to-amber-200 border-amber-200'
+                        }`}
+                      >
+                        <p className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
+                          {product.name}
+                        </p>
+                        <p className="text-sm font-bold text-amber-700">
+                          {product.sellingPrice} SAR
+                        </p>
+                        {itemInOrder && (
+                          <div className="absolute top-2 right-2 flex items-center gap-1 bg-amber-600 text-white rounded-full w-6 h-6 justify-center text-xs font-bold">
+                            {itemInOrder.quantity}
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -234,20 +263,32 @@ export const Events = () => {
               <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
                 <h3 className="text-lg font-bold text-gray-900 mb-4">Shorts</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                  {shorts.map((product) => (
-                    <button
-                      key={product.id}
-                      onClick={() => handleAddProduct(product)}
-                      className="bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 border-2 border-green-200 rounded-lg p-3 transition-all hover:shadow-md active:scale-95"
-                    >
-                      <p className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
-                        {product.name}
-                      </p>
-                      <p className="text-sm font-bold text-green-600">
-                        {product.sellingPrice} SAR
-                      </p>
-                    </button>
-                  ))}
+                  {shorts.map((product) => {
+                    const itemInOrder = orderItems.find(item => item.product.id === product.id);
+                    return (
+                      <button
+                        key={product.id}
+                        onClick={() => handleAddProduct(product)}
+                        className={`border-2 rounded-lg p-3 transition-all hover:shadow-md active:scale-95 relative ${
+                          itemInOrder
+                            ? 'bg-green-100 to-green-200 border-green-600 shadow-md'
+                            : 'bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 border-green-200'
+                        }`}
+                      >
+                        <p className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
+                          {product.name}
+                        </p>
+                        <p className="text-sm font-bold text-green-600">
+                          {product.sellingPrice} SAR
+                        </p>
+                        {itemInOrder && (
+                          <div className="absolute top-2 right-2 flex items-center gap-1 bg-green-600 text-white rounded-full w-6 h-6 justify-center text-xs font-bold">
+                            {itemInOrder.quantity}
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -265,7 +306,35 @@ export const Events = () => {
             </div>
             <div className="border-t border-gray-200 pt-4">
               <p className="text-xs font-semibold text-gray-600 uppercase mb-2">Payment</p>
-              <p className="text-lg font-bold text-gray-900">{paymentMethod.name}</p>
+              <div className="relative">
+                <button
+                  onClick={() => setShowPaymentMenu(!showPaymentMenu)}
+                  className="w-full text-left bg-white border-2 border-gray-200 rounded-lg p-3 hover:border-blue-500 transition-colors flex items-center justify-between"
+                >
+                  <span className="text-lg font-bold text-gray-900">{paymentMethod?.name}</span>
+                  <span className="text-gray-500">▼</span>
+                </button>
+                {showPaymentMenu && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-200 rounded-lg shadow-lg z-10">
+                    {availablePaymentMethods.map((method) => (
+                      <button
+                        key={method.id}
+                        onClick={() => {
+                          setPaymentMethod(method);
+                          setShowPaymentMenu(false);
+                        }}
+                        className={`w-full text-left px-4 py-3 transition-colors ${
+                          paymentMethod?.id === method.id
+                            ? 'bg-blue-50 text-blue-700 font-semibold'
+                            : 'text-gray-700 hover:bg-gray-50'
+                        }`}
+                      >
+                        {method.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -321,7 +390,12 @@ export const Events = () => {
           {/* Discount Section */}
           <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
             <button
-              onClick={() => setShowDiscountSection(!showDiscountSection)}
+              onClick={() => {
+                setShowDiscountSection(!showDiscountSection);
+                if (!showDiscountSection && !discount) {
+                  setDiscount({ type: 'fixed', value: 0 });
+                }
+              }}
               className="w-full flex items-center gap-2 text-lg font-bold text-gray-900 hover:text-blue-600 transition-colors"
             >
               <Tag className="h-5 w-5" />
@@ -379,6 +453,7 @@ export const Events = () => {
                   </label>
                   <input
                     type="number"
+                    inputMode="numeric"
                     placeholder="0"
                     value={discount?.value || 0}
                     onChange={(e) => {
