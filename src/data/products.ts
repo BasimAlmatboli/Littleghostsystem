@@ -1,32 +1,32 @@
 import { Product } from '../types';
 
 const defaultProducts: Product[] = [
-{
+  {
     id: 'LAZY GHOST T-SHIRT',
     name: 'LAZY GHOST T-SHIRT',
     cost: 41,
-    sellingPrice: 149,
+    sellingPrice: 179,
     owner: 'yassir'  // 100% owned by Yassir
   },
   {
     id: 'DARK GREEN T-SHIRT',
     name: 'DARK GREEN T-SHIRT',
     cost: 45,
-    sellingPrice: 149,
+    sellingPrice: 179,
     owner: 'yassir'  // 100% owned by Yassir
   },
   {
     id: 'OFF WHITE T-SHIRT',
     name: 'OFF WHITE T-SHIRT',
     cost: 45,
-    sellingPrice: 159,
+    sellingPrice: 179,
     owner: 'yassir'  // 100% owned by Yassir
-  }, 
+  },
   {
     id: 'TEE ROSE T-SHIRT',
     name: 'TEE ROSE T-SHIRT',
     cost: 45,
-    sellingPrice: 149,
+    sellingPrice: 179,
     owner: 'yassir'  // 100% owned by Yassir
   },
   {
@@ -40,7 +40,7 @@ const defaultProducts: Product[] = [
     id: 'PINK HOODIE',
     name: 'PINK HOODIE',
     cost: 40,
-    sellingPrice: 169,
+    sellingPrice: 189,
     owner: 'yassir-manal'  // Co-owned by Yassir and Manal
   },
   {
@@ -49,7 +49,7 @@ const defaultProducts: Product[] = [
     cost: 40,
     sellingPrice: 189,
     owner: 'yassir-manal'  // Co-owned by Yassir and Manal
-  }, 
+  },
   {
     id: 'DARK GREEY HOODIE',
     name: 'DARK GREEY HOODIE',
@@ -71,32 +71,60 @@ const defaultProducts: Product[] = [
     sellingPrice: 179,
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
-    {
+  {
     id: 'Black Short',
     name: 'Black Short',
     cost: 52,
-    sellingPrice: 179,
+    sellingPrice: 169,
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
-    {
+  {
     id: 'Green Short',
     name: 'Green Short',
     cost: 52,
-    sellingPrice: 179,
+    sellingPrice: 169,
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
-    {
+  {
     id: 'Blue Short',
     name: 'Blue Short',
     cost: 52,
-    sellingPrice: 179,
+    sellingPrice: 169,
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
-    {
+  {
     id: 'Gray Short',
     name: 'Gray Short',
     cost: 52,
-    sellingPrice: 179,
+    sellingPrice: 169,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+  {
+    id: 'ZIP-UP DARK GREY HOODIE',
+    name: 'ZIP-UP DARK GREY HOODIE',
+    cost: 85,
+    sellingPrice: 269,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+  {
+    id: 'PANTS DARK GREY',
+    name: 'PANTS DARK GREY',
+    cost: 85,
+    sellingPrice: 269,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+  {
+    id: 'ZIP-UP GREY HOODIE',
+    name: 'ZIP-UP GREY HOODIE',
+    cost: 85,
+    sellingPrice: 269,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+  {
+    id: 'PANTS GREY',
+    name: 'PANTS GREY',
+    cost: 85,
+    sellingPrice: 269,
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
 ];
