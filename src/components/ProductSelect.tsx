@@ -45,7 +45,7 @@ export const ProductSelect: React.FC<ProductSelectProps> = ({
 
   const handleItemUpdate = (index: number, updates: { quantity?: number; cost?: number; sellingPrice?: number }) => {
     const updatedItems = [...orderItems];
-    
+
     if (updates.quantity !== undefined) {
       if (updates.quantity <= 0) {
         // Remove item if quantity is 0 or less
@@ -91,14 +91,23 @@ export const ProductSelect: React.FC<ProductSelectProps> = ({
     .sort((a, b) => a.name.localeCompare(b.name));
 
   const hoodies = allProducts
-    .filter(product => product.name.toUpperCase().includes('HOODIE'))
+    .filter(product => product.name.toUpperCase().includes('HOODIE') && !product.name.toUpperCase().includes('ZIP-UP'))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const zipUpHoodies = allProducts
+    .filter(product => product.name.toUpperCase().includes('ZIP-UP') && product.name.toUpperCase().includes('HOODIE'))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const pants = allProducts
+    .filter(product => product.name.toUpperCase().includes('PANTS'))
     .sort((a, b) => a.name.localeCompare(b.name));
 
   const otherProducts = allProducts
-    .filter(product => 
+    .filter(product =>
       !product.name.toUpperCase().includes('T-SHIRT') &&
       !product.name.toUpperCase().includes('SHORT') &&
-      !product.name.toUpperCase().includes('HOODIE')
+      !product.name.toUpperCase().includes('HOODIE') &&
+      !product.name.toUpperCase().includes('PANTS')
     )
     .sort((a, b) => a.name.localeCompare(b.name));
 
@@ -149,6 +158,34 @@ export const ProductSelect: React.FC<ProductSelectProps> = ({
             </h3>
             <ProductGrid
               products={hoodies}
+              selectedProducts={selectedProducts}
+              onProductSelect={handleProductSelect}
+            />
+          </div>
+        )}
+
+        {/* Zip-Up Hoodies */}
+        {zipUpHoodies.length > 0 && (
+          <div className="space-y-3">
+            <h3 className="text-md font-medium text-gray-700 border-b border-gray-200 pb-2">
+              Zip-Up Hoodies
+            </h3>
+            <ProductGrid
+              products={zipUpHoodies}
+              selectedProducts={selectedProducts}
+              onProductSelect={handleProductSelect}
+            />
+          </div>
+        )}
+
+        {/* Pants */}
+        {pants.length > 0 && (
+          <div className="space-y-3">
+            <h3 className="text-md font-medium text-gray-700 border-b border-gray-200 pb-2">
+              Pants
+            </h3>
+            <ProductGrid
+              products={pants}
               selectedProducts={selectedProducts}
               onProductSelect={handleProductSelect}
             />

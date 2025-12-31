@@ -129,8 +129,10 @@ export const Events = () => {
   };
 
   const tShirts = allProducts.filter(p => p.name.toUpperCase().includes('T-SHIRT'));
-  const hoodies = allProducts.filter(p => p.name.toUpperCase().includes('HOODIE'));
+  const hoodies = allProducts.filter(p => p.name.toUpperCase().includes('HOODIE') && !p.name.toUpperCase().includes('ZIP-UP'));
+  const zipUpHoodies = allProducts.filter(p => p.name.toUpperCase().includes('ZIP-UP') && p.name.toUpperCase().includes('HOODIE'));
   const shorts = allProducts.filter(p => p.name.toUpperCase().includes('SHORT'));
+  const pants = allProducts.filter(p => p.name.toUpperCase().includes('PANTS'));
 
   if (!shippingMethod || !paymentMethod) {
     return (
@@ -199,11 +201,10 @@ export const Events = () => {
                       <button
                         key={product.id}
                         onClick={() => handleAddProduct(product)}
-                        className={`border-2 rounded-lg p-3 transition-all hover:shadow-md active:scale-95 relative ${
-                          itemInOrder
+                        className={`border-2 rounded-lg p-3 transition-all hover:shadow-md active:scale-95 relative ${itemInOrder
                             ? 'bg-blue-100 to-blue-200 border-blue-500 shadow-md'
                             : 'bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 border-blue-200'
-                        }`}
+                          }`}
                       >
                         <p className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
                           {product.name}
@@ -234,11 +235,10 @@ export const Events = () => {
                       <button
                         key={product.id}
                         onClick={() => handleAddProduct(product)}
-                        className={`border-2 rounded-lg p-3 transition-all hover:shadow-md active:scale-95 relative ${
-                          itemInOrder
+                        className={`border-2 rounded-lg p-3 transition-all hover:shadow-md active:scale-95 relative ${itemInOrder
                             ? 'bg-amber-100 to-amber-200 border-amber-600 shadow-md'
                             : 'bg-gradient-to-br from-amber-50 to-amber-100 hover:from-amber-100 hover:to-amber-200 border-amber-200'
-                        }`}
+                          }`}
                       >
                         <p className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
                           {product.name}
@@ -269,11 +269,10 @@ export const Events = () => {
                       <button
                         key={product.id}
                         onClick={() => handleAddProduct(product)}
-                        className={`border-2 rounded-lg p-3 transition-all hover:shadow-md active:scale-95 relative ${
-                          itemInOrder
+                        className={`border-2 rounded-lg p-3 transition-all hover:shadow-md active:scale-95 relative ${itemInOrder
                             ? 'bg-green-100 to-green-200 border-green-600 shadow-md'
                             : 'bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 border-green-200'
-                        }`}
+                          }`}
                       >
                         <p className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
                           {product.name}
@@ -283,6 +282,74 @@ export const Events = () => {
                         </p>
                         {itemInOrder && (
                           <div className="absolute top-2 right-2 flex items-center gap-1 bg-green-600 text-white rounded-full w-6 h-6 justify-center text-xs font-bold">
+                            {itemInOrder.quantity}
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Zip-Up Hoodies */}
+            {zipUpHoodies.length > 0 && (
+              <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Zip-Up Hoodies</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {zipUpHoodies.map((product) => {
+                    const itemInOrder = orderItems.find(item => item.product.id === product.id);
+                    return (
+                      <button
+                        key={product.id}
+                        onClick={() => handleAddProduct(product)}
+                        className={`border-2 rounded-lg p-3 transition-all hover:shadow-md active:scale-95 relative ${itemInOrder
+                            ? 'bg-purple-100 to-purple-200 border-purple-600 shadow-md'
+                            : 'bg-gradient-to-br from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200 border-purple-200'
+                          }`}
+                      >
+                        <p className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
+                          {product.name}
+                        </p>
+                        <p className="text-sm font-bold text-purple-700">
+                          {product.sellingPrice} SAR
+                        </p>
+                        {itemInOrder && (
+                          <div className="absolute top-2 right-2 flex items-center gap-1 bg-purple-600 text-white rounded-full w-6 h-6 justify-center text-xs font-bold">
+                            {itemInOrder.quantity}
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Pants */}
+            {pants.length > 0 && (
+              <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Pants</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {pants.map((product) => {
+                    const itemInOrder = orderItems.find(item => item.product.id === product.id);
+                    return (
+                      <button
+                        key={product.id}
+                        onClick={() => handleAddProduct(product)}
+                        className={`border-2 rounded-lg p-3 transition-all hover:shadow-md active:scale-95 relative ${itemInOrder
+                            ? 'bg-indigo-100 to-indigo-200 border-indigo-600 shadow-md'
+                            : 'bg-gradient-to-br from-indigo-50 to-indigo-100 hover:from-indigo-100 hover:to-indigo-200 border-indigo-200'
+                          }`}
+                      >
+                        <p className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
+                          {product.name}
+                        </p>
+                        <p className="text-sm font-bold text-indigo-700">
+                          {product.sellingPrice} SAR
+                        </p>
+                        {itemInOrder && (
+                          <div className="absolute top-2 right-2 flex items-center gap-1 bg-indigo-600 text-white rounded-full w-6 h-6 justify-center text-xs font-bold">
                             {itemInOrder.quantity}
                           </div>
                         )}
@@ -323,11 +390,10 @@ export const Events = () => {
                           setPaymentMethod(method);
                           setShowPaymentMenu(false);
                         }}
-                        className={`w-full text-left px-4 py-3 transition-colors ${
-                          paymentMethod?.id === method.id
+                        className={`w-full text-left px-4 py-3 transition-colors ${paymentMethod?.id === method.id
                             ? 'bg-blue-50 text-blue-700 font-semibold'
                             : 'text-gray-700 hover:bg-gray-50'
-                        }`}
+                          }`}
                       >
                         {method.name}
                       </button>
@@ -420,11 +486,10 @@ export const Events = () => {
                             : { type: 'percentage', value: 0 }
                         )
                       }
-                      className={`flex-1 py-2 px-3 rounded-lg font-medium transition-colors ${
-                        discount?.type === 'percentage'
+                      className={`flex-1 py-2 px-3 rounded-lg font-medium transition-colors ${discount?.type === 'percentage'
                           ? 'bg-blue-600 text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
+                        }`}
                     >
                       %
                     </button>
@@ -436,11 +501,10 @@ export const Events = () => {
                             : { type: 'fixed', value: 0 }
                         )
                       }
-                      className={`flex-1 py-2 px-3 rounded-lg font-medium transition-colors ${
-                        discount?.type === 'fixed'
+                      className={`flex-1 py-2 px-3 rounded-lg font-medium transition-colors ${discount?.type === 'fixed'
                           ? 'bg-blue-600 text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
+                        }`}
                     >
                       SAR
                     </button>
@@ -538,11 +602,10 @@ export const Events = () => {
             <button
               onClick={handleSaveOrder}
               disabled={isSaving || orderItems.length === 0}
-              className={`w-full py-4 px-6 rounded-lg font-bold text-lg transition-all ${
-                isSaving || orderItems.length === 0
+              className={`w-full py-4 px-6 rounded-lg font-bold text-lg transition-all ${isSaving || orderItems.length === 0
                   ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
                   : 'bg-green-600 hover:bg-green-700 text-white active:scale-95'
-              }`}
+                }`}
             >
               {isSaving ? (
                 <span className="flex items-center justify-center gap-2">

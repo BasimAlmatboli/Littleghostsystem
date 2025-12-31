@@ -23,7 +23,7 @@ export const calculateTotalEarnings = (
   const { yassirCost, ahmedCost, manalCost, abbasCost } = items.reduce(
     (acc, item) => {
       const itemTotalCost = item.product.cost * item.quantity;
-      
+
       // Assign costs based on product ownership
       if (item.product.owner === 'yassir-ahmed') {
         // T-shirts are co-owned by Yassir and Ahmed (split costs 50/50)
@@ -34,14 +34,14 @@ export const calculateTotalEarnings = (
         acc.yassirCost += itemTotalCost * 0.5;
         acc.manalCost += itemTotalCost * 0.5;
       } else if (item.product.owner === 'yassir-abbas') {
-        // Products are co-owned by Yassir and Abbas (split costs 60/40)
+        // Products are co-owned by Yassir and Abbas (split costs 50/50)
         acc.yassirCost += itemTotalCost * 0.5;
         acc.abbasCost += itemTotalCost * 0.5;
       } else {
         // All other products are Yassir's
         acc.yassirCost += itemTotalCost;
       }
-      
+
       return acc;
     },
     { yassirCost: 0, ahmedCost: 0, manalCost: 0, abbasCost: 0 }
