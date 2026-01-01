@@ -1,0 +1,129 @@
+name: Keep Supabase Database Alive - Orders
+
+on:
+  schedule:
+    # Runs every 5 days at 02:00 UTC (offset from products cron)
+    - cron: '0 2 */5 * *'
+  workflow_dispatch: # Allows manual triggering for testing
+
+jobs:
+  query-database:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Supabase JS Client
+        run: npm install @supabase/supabase-js
+
+      - name: Query Orders Table
+        env:
+          SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        run: |
+          node << 'EOF'
+          const { createClient } = require('@supabase/supabase-js');
+          
+          const supabaseUrl = process.env.SUPABASE_URL;
+          const supabaseKey = process.env.SUPABASE_ANON_KEY;
+          
+          const supabase = createClient(supabaseUrl, supabaseKey);
+          
+          async function queryOrders() {
+            try {
+              console.log('🔄 Querying orders table to keep database alive...\n');
+              
+              const { data, error, count } = await supabase
+                .from('orders')
+                .select('*', { count: 'exact' })
+                .order('created_at', { ascending: false });
+              
+              if (error) {
+                console.error('❌ Error querying database:', error);
+                process.exit(1);
+              }
+              
+              console.log(`✅ Successfully queried database!`);
+              console.log(`📊 Total orders found: ${count}\n`);
+              
+              if (data && data.length > 0) {
+                console.log('🛒 Orders List (Most Recent First):\n');
+                
+                // Calculate summary statistics
+                const totalRevenue = data.reduce((sum, order) => sum + parseFloat(order.total), 0);
+                const totalProfit = data.reduce((sum, order) => sum + parseFloat(order.net_profit), 0);
+                const freeShippingOrders = data.filter(order => order.is_free_shipping).length;
+                
+                console.log('📈 Summary Statistics:');
+                console.log(`   Total Revenue: $${totalRevenue.toFixed(2)}`);
+                console.log(`   Total Net Profit: $${totalProfit.toFixed(2)}`);
+                console.log(`   Free Shipping Orders: ${freeShippingOrders} (${((freeShippingOrders/count)*100).toFixed(1)}%)\n`);
+                
+                console.log('📦 Individual Orders:\n');
+                data.forEach((order, index) => {
+                  console.log(`${index + 1}. Order #${order.order_number}`);
+                  console.log(`   ID: ${order.id}`);
+                  console.log(`   Date: ${new Date(order.created_at).toLocaleString()}`);
+                  
+                  // Parse items
+                  const itemCount = Array.isArray(order.items) ? order.items.length : 0;
+                  console.log(`   Items: ${itemCount} item(s)`);
+                  
+                  // Financial details
+                  console.log(`   Subtotal: $${parseFloat(order.subtotal).toFixed(2)}`);
+                  console.log(`   Shipping: $${parseFloat(order.shipping_cost).toFixed(2)}${order.is_free_shipping ? ' (FREE)' : ''}`);
+                  console.log(`   Payment Fees: $${parseFloat(order.payment_fees).toFixed(2)}`);
+                  
+                  // Discount
+                  if (order.discount) {
+                    const discountInfo = typeof order.discount === 'string' 
+                      ? JSON.parse(order.discount) 
+                      : order.discount;
+                    console.log(`   Discount: ${JSON.stringify(discountInfo)}`);
+                  }
+                  
+                  console.log(`   Total: $${parseFloat(order.total).toFixed(2)}`);
+                  console.log(`   Net Profit: $${parseFloat(order.net_profit).toFixed(2)}`);
+                  
+                  // Shipping method
+                  const shippingMethod = typeof order.shipping_method === 'string'
+                    ? JSON.parse(order.shipping_method)
+                    : order.shipping_method;
+                  console.log(`   Shipping Method: ${shippingMethod.name || shippingMethod.type || 'N/A'}`);
+                  
+                  // Payment method
+                  const paymentMethod = typeof order.payment_method === 'string'
+                    ? JSON.parse(order.payment_method)
+                    : order.payment_method;
+                  console.log(`   Payment Method: ${paymentMethod.name || paymentMethod.type || 'N/A'}`);
+                  
+                  console.log('');
+                });
+              } else {
+                console.log('ℹ️  No orders found in the database.');
+              }
+              
+              console.log(`\n✨ Database keep-alive completed at ${new Date().toISOString()}`);
+              
+            } catch (err) {
+              console.error('❌ Unexpected error:', err);
+              process.exit(1);
+            }
+          }
+          
+          queryOrders();
+          EOF
+
+      - name: Log Completion
+        if: success()
+        run: echo "✅ Database keep-alive job completed successfully!"
+
+      - name: Log Failure
+        if: failure()
+        run: echo "❌ Database keep-alive job failed!"
