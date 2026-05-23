@@ -85,11 +85,12 @@ export function calculateItemProfitShare(
   let ahmedShare = 0;
   let manalShare = 0;
   
-  if (item.product.name.includes('T-SHIRT')) {
+  const upperName = item.product.name.toUpperCase();
+  if (upperName.includes('T-SHIRT')) {
     // T-shirts are split 50/50 with Ahmed
     yassirShare = netProfit * 0.5;
     ahmedShare = netProfit * 0.5;
-  } else if (item.product.name.includes('HOODIE')) {
+  } else if (upperName.includes('HOODIE')) {
     // Hoodies are split 50/50 with Manal
     yassirShare = netProfit * 0.5;
     manalShare = netProfit * 0.5;

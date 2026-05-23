@@ -4,8 +4,9 @@ export const calculateProfitShare = (
   productName: string,
   netProfit: number
 ): { yassirShare: number; ahmedShare: number; manalShare: number } => {
+  const upperName = productName.toUpperCase();
   // T-shirts are split 50/50 with Ahmed
-  if (productName.includes('T-SHIRT')) {
+  if (upperName.includes('T-SHIRT')) {
     return {
       yassirShare: netProfit * 0.5,
       ahmedShare: netProfit * 0.5,
@@ -14,7 +15,7 @@ export const calculateProfitShare = (
   }
   
   // Hoodies are split 50/50 with Manal
-  if (productName.includes('HOODIE')) {
+  if (upperName.includes('HOODIE')) {
     return {
       yassirShare: netProfit * 0.5,
       ahmedShare: 0,

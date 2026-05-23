@@ -72,6 +72,13 @@ const defaultProducts: Product[] = [
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
   {
+    id: 'Blue T-shirt',
+    name: 'Blue T-shirt',
+    cost: 37,
+    sellingPrice: 179,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+  {
     id: 'Black Short',
     name: 'Black Short',
     cost: 52,
@@ -131,7 +138,25 @@ const defaultProducts: Product[] = [
 
 export const getProducts = (): Product[] => {
   const savedProducts = localStorage.getItem('products');
-  return savedProducts ? JSON.parse(savedProducts) : defaultProducts;
+  if (!savedProducts) return defaultProducts;
+  try {
+    const parsed: Product[] = JSON.parse(savedProducts);
+    const merged = [...parsed];
+    let hasChanges = false;
+    defaultProducts.forEach(defProd => {
+      if (!merged.some(p => p.id === defProd.id)) {
+        merged.push(defProd);
+        hasChanges = true;
+      }
+    });
+    if (hasChanges) {
+      saveProducts(merged);
+    }
+    return merged;
+  } catch (e) {
+    console.error('Failed to parse saved products, falling back to defaults', e);
+    return defaultProducts;
+  }
 };
 
 export const saveProducts = (products: Product[]) => {
