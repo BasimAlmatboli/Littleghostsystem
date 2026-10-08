@@ -134,6 +134,34 @@ const defaultProducts: Product[] = [
     sellingPrice: 269,
     owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
   },
+  {
+    id: 'LONG SLEEVE T-SHIRT',
+    name: 'LONG SLEEVE T-SHIRT',
+    cost: 31,
+    sellingPrice: 139,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+  {
+    id: 'BASIC T-SHIRT',
+    name: 'BASIC T-SHIRT',
+    cost: 25,
+    sellingPrice: 89,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+  {
+    id: 'SEAM T-SHIRT',
+    name: 'SEAM T-SHIRT',
+    cost: 36,
+    sellingPrice: 149,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
+  {
+    id: 'CAP',
+    name: 'CAP',
+    cost: 30,
+    sellingPrice: 109,
+    owner: 'yassir-abbas'  // Co-owned by Yassir and Abbas
+  },
 ];
 
 export const getProducts = (): Product[] => {

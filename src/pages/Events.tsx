@@ -133,6 +133,10 @@ export const Events = () => {
   const zipUpHoodies = allProducts.filter(p => p.name.toUpperCase().includes('ZIP-UP') && p.name.toUpperCase().includes('HOODIE'));
   const shorts = allProducts.filter(p => p.name.toUpperCase().includes('SHORT'));
   const pants = allProducts.filter(p => p.name.toUpperCase().includes('PANTS'));
+  // Anything not matching a category above (e.g. caps)
+  const accessories = allProducts.filter(p =>
+    ![...tShirts, ...hoodies, ...zipUpHoodies, ...shorts, ...pants].includes(p)
+  );
 
   if (!shippingMethod || !paymentMethod) {
     return (
@@ -350,6 +354,40 @@ export const Events = () => {
                         </p>
                         {itemInOrder && (
                           <div className="absolute top-2 right-2 flex items-center gap-1 bg-indigo-600 text-white rounded-full w-6 h-6 justify-center text-xs font-bold">
+                            {itemInOrder.quantity}
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Accessories */}
+            {accessories.length > 0 && (
+              <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Accessories</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {accessories.map((product) => {
+                    const itemInOrder = orderItems.find(item => item.product.id === product.id);
+                    return (
+                      <button
+                        key={product.id}
+                        onClick={() => handleAddProduct(product)}
+                        className={`border-2 rounded-lg p-3 transition-all hover:shadow-md active:scale-95 relative ${itemInOrder
+                            ? 'bg-teal-100 to-teal-200 border-teal-600 shadow-md'
+                            : 'bg-gradient-to-br from-teal-50 to-teal-100 hover:from-teal-100 hover:to-teal-200 border-teal-200'
+                          }`}
+                      >
+                        <p className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
+                          {product.name}
+                        </p>
+                        <p className="text-sm font-bold text-teal-700">
+                          {product.sellingPrice} SAR
+                        </p>
+                        {itemInOrder && (
+                          <div className="absolute top-2 right-2 flex items-center gap-1 bg-teal-600 text-white rounded-full w-6 h-6 justify-center text-xs font-bold">
                             {itemInOrder.quantity}
                           </div>
                         )}
