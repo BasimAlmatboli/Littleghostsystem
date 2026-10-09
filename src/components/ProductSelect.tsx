@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { OrderItem, Product } from '../types';
 import { ProductRow } from './ProductRow';
 import { ProductGrid } from './products/ProductGrid';
-import { getProducts } from '../data/products';
+import { getProducts } from '../services/productService';
 import { ShoppingCart } from 'lucide-react';
 
 interface ProductSelectProps {
@@ -17,7 +17,7 @@ export const ProductSelect: React.FC<ProductSelectProps> = ({
   const [allProducts, setAllProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    setAllProducts(getProducts());
+    getProducts().then(setAllProducts);
   }, []);
 
   const handleProductSelect = (product: Product) => {

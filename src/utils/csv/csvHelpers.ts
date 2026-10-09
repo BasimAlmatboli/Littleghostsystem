@@ -2,6 +2,7 @@ import { Order } from '../../types';
 import { supabase } from '../../lib/supabase';
 import { createOrderCSVHeaders, createOrderCSVRow } from './exportHelpers';
 import { parseCSVRow, createOrderItems } from './importHelpers';
+import { getProducts } from '../../services/productService';
 
 export const exportOrdersToCSV = (orders: Order[]): string => {
   const headers = createOrderCSVHeaders();
@@ -14,6 +15,7 @@ export const importOrdersFromCSV = async (file: File): Promise<void> => {
   const lines = text.split('\n');
   const headers = lines[0].split(',');
   const rows = lines.slice(1);
+  const systemProducts = await getProducts();
 
   for (const row of rows) {
     if (!row.trim()) continue;
@@ -28,7 +30,7 @@ export const importOrdersFromCSV = async (file: File): Promise<void> => {
       const quantities = getValue(4).split(';').map(q => parseInt(q, 10));
 
       // Create order items with proper product linking
-      const items = createOrderItems(productIds, productNames, quantities);
+      const items = createOrderItems(productIds, productNames, quantities, systemProducts);
 
       const shippingMethod = {
         id: getValue(5).toLowerCase().replace(/\s+/g, '-'),

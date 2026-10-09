@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useOrder } from '../hooks/useOrder';
 import { saveOrder } from '../services/orderService';
-import { getProducts } from '../data/products';
+import { getProducts } from '../services/productService';
 import { getShippingMethods } from '../data/shipping';
 import { getPaymentMethods } from '../data/payments';
 import { generateRandomOrderNumber } from '../utils/generateOrderNumber';
@@ -38,8 +38,7 @@ export const Events = () => {
 
   // Initialize with defaults
   useEffect(() => {
-    const products = getProducts();
-    setAllProducts(products);
+    getProducts().then(setAllProducts);
 
     const shippingMethods = getShippingMethods();
     const noShipping = shippingMethods.find(m => m.id === 'no-shipping');

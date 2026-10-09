@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 import { Product } from '../../types';
-import { getProducts, saveProducts } from '../../data/products';
+import { addProduct } from '../../services/productService';
 import { Plus } from 'lucide-react';
 
-export const ProductForm = () => {
+interface ProductFormProps {
+  nextSortOrder: number;
+  onProductAdded: () => void;
+}
+
+export const ProductForm: React.FC<ProductFormProps> = ({ nextSortOrder, onProductAdded }) => {
   const [name, setName] = useState('');
   const [cost, setCost] = useState('');
   const [sellingPrice, setSellingPrice] = useState('');
   const [owner, setOwner] = useState<'yassir' | 'yassir-ahmed' | 'yassir-manal' | 'yassir-abbas'>('yassir');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isAdding, setIsAdding] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!name || !cost || !sellingPrice) {
@@ -17,7 +24,6 @@ export const ProductForm = () => {
       return;
     }
 
-    const products = getProducts();
     const newProduct: Product = {
       id: Date.now().toString(),
       name,
@@ -26,16 +32,23 @@ export const ProductForm = () => {
       owner
     };
 
-    saveProducts([...products, newProduct]);
-    
+    setIsAdding(true);
+    try {
+      await addProduct(newProduct, nextSortOrder);
+    } catch {
+      alert('Failed to add product. Please try again.');
+      return;
+    } finally {
+      setIsAdding(false);
+    }
+
     // Reset form
     setName('');
     setCost('');
     setSellingPrice('');
     setOwner('yassir');
-    
-    // Refresh the page to show new product
-    window.location.reload();
+
+    onProductAdded();
   };
 
   return (
@@ -109,10 +122,11 @@ export const ProductForm = () => {
 
         <button
           type="submit"
-          className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          disabled={isAdding}
+          className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
         >
           <Plus className="h-4 w-4" />
-          <span>Add Product</span>
+          <span>{isAdding ? 'Adding...' : 'Add Product'}</span>
         </button>
       </form>
     </div>

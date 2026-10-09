@@ -20,7 +20,7 @@ export const ShippingSettings = () => {
 
   const handleSave = () => {
     saveShippingMethods(shippingMethods);
-    alert('Changes saved successfully!');
+    alert('Shipping settings saved!');
   };
 
   return (
@@ -32,7 +32,7 @@ export const ShippingSettings = () => {
           className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
         >
           <Save className="h-4 w-4" />
-          <span>Save Changes</span>
+          <span>Save Shipping</span>
         </button>
       </div>
 
