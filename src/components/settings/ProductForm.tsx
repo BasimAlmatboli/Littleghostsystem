@@ -14,7 +14,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({ nextSortOrder, onProdu
   const [name, setName] = useState('');
   const [cost, setCost] = useState('');
   const [sellingPrice, setSellingPrice] = useState('');
-  const [owner, setOwner] = useState<'yassir' | 'yassir-ahmed' | 'yassir-manal' | 'yassir-abbas'>('yassir');
+  const [owner, setOwner] = useState<Product['owner']>('yassir');
 
   const [isAdding, setIsAdding] = useState(false);
 

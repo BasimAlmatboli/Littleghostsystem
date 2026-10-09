@@ -10,7 +10,6 @@ interface OrderSummaryProps {
 
 const partners = [
   { key: 'totalYassirShare', itemKey: 'yassirShare', name: 'Yassir', card: 'from-blue-50 to-indigo-50 ring-blue-100', text: 'text-blue-700', dot: 'bg-blue-500' },
-  { key: 'totalAhmedShare', itemKey: 'ahmedShare', name: 'Ahmed', card: 'from-amber-50 to-orange-50 ring-amber-100', text: 'text-amber-700', dot: 'bg-amber-500' },
   { key: 'totalManalShare', itemKey: 'manalShare', name: 'Manal', card: 'from-pink-50 to-rose-50 ring-pink-100', text: 'text-pink-700', dot: 'bg-pink-500' },
   { key: 'totalAbbasShare', itemKey: 'abbasShare', name: 'Abbas', card: 'from-violet-50 to-purple-50 ring-violet-100', text: 'text-violet-700', dot: 'bg-violet-500' },
 ] as const;
@@ -57,7 +56,7 @@ export const OrderSummary = ({ order }: OrderSummaryProps) => {
 
       <div className="space-y-4 p-5">
         {/* Partner totals */}
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           {partners.map(partner => (
             <div key={partner.key} className={`rounded-xl bg-gradient-to-br p-3.5 ring-1 ${partner.card}`}>
               <p className="flex items-center gap-1.5 text-xs font-medium text-gray-600">
@@ -104,7 +103,7 @@ export const OrderSummary = ({ order }: OrderSummaryProps) => {
                     <Stat label={`Expenses (${(share.revenueProportion * 100).toFixed(1)}%)`} value={`-${share.expenseShare.toFixed(2)} SAR`} valueClass="text-red-600" />
                     <Stat label="Net profit" value={`${share.netProfit.toFixed(2)} SAR`} valueClass="text-emerald-600" />
                   </div>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 border-t border-gray-100 bg-gray-50/60 px-4 py-3 text-xs sm:grid-cols-4">
+                  <div className="grid grid-cols-3 gap-x-4 gap-y-2 border-t border-gray-100 bg-gray-50/60 px-4 py-3 text-xs">
                     {partners.map(partner => (
                       <Stat
                         key={partner.itemKey}
@@ -125,7 +124,6 @@ export const OrderSummary = ({ order }: OrderSummaryProps) => {
           <EarningsReport
             items={order.items}
             totalYassirShare={profitSharing.totalYassirShare}
-            totalAhmedShare={profitSharing.totalAhmedShare}
             totalManalShare={profitSharing.totalManalShare}
             totalAbbasShare={profitSharing.totalAbbasShare}
           />

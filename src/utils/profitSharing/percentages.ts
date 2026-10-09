@@ -3,11 +3,6 @@
  */
 
 export const getYassirPercentage = (owner: string): number => {
-  // T-shirts are split 50/50 with Ahmed
-  if (owner === 'yassir-ahmed') {
-    return 0.5; // 50%
-  }
-  
   // Hoodies are split 50/50 with Manal
   if (owner === 'yassir-manal') {
     return 0.5; // 50%
@@ -20,14 +15,6 @@ export const getYassirPercentage = (owner: string): number => {
   
   // For all other products, Yassir gets 100%
   return 1; // 100%
-};
-
-export const getAhmedPercentage = (owner: string): number => {
-  // Ahmed gets 50% of t-shirts only
-  if (owner === 'yassir-ahmed') {
-    return 0.5; // 50%
-  }
-  return 0; // 0% for other products
 };
 
 export const getManalPercentage = (owner: string): number => {

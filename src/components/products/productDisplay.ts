@@ -7,7 +7,6 @@ export const ownerOptions: {
   pill: string;
 }[] = [
   { value: 'yassir', label: 'Yassir', dot: 'bg-blue-500', pill: 'bg-blue-50 text-blue-700 ring-blue-200' },
-  { value: 'yassir-ahmed', label: 'Yassir & Ahmed', dot: 'bg-amber-500', pill: 'bg-amber-50 text-amber-700 ring-amber-200' },
   { value: 'yassir-manal', label: 'Yassir & Manal', dot: 'bg-pink-500', pill: 'bg-pink-50 text-pink-700 ring-pink-200' },
   { value: 'yassir-abbas', label: 'Yassir & Abbas', dot: 'bg-violet-500', pill: 'bg-violet-50 text-violet-700 ring-violet-200' },
 ];
