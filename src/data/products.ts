@@ -164,7 +164,9 @@ const defaultProducts: Product[] = [
   },
 ];
 
-export const getProducts = (): Product[] => {
+// Fallback product list (browser copy merged with defaults), used when the
+// Supabase products table is unavailable. See src/services/productService.ts.
+export const getLocalProducts = (): Product[] => {
   const savedProducts = localStorage.getItem('products');
   if (!savedProducts) return defaultProducts;
   try {
@@ -178,7 +180,7 @@ export const getProducts = (): Product[] => {
       }
     });
     if (hasChanges) {
-      saveProducts(merged);
+      saveLocalProducts(merged);
     }
     return merged;
   } catch (e) {
@@ -187,6 +189,6 @@ export const getProducts = (): Product[] => {
   }
 };
 
-export const saveProducts = (products: Product[]) => {
+const saveLocalProducts = (products: Product[]) => {
   localStorage.setItem('products', JSON.stringify(products));
 };

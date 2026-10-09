@@ -1,5 +1,4 @@
 import { Product, OrderItem } from '../../types';
-import { getProducts } from '../../data/products';
 
 export const parseCSVRow = (row: string): string[] => {
   const values: string[] = [];
@@ -40,10 +39,9 @@ export const findProductInSystem = (
 export const createOrderItems = (
   productIds: string[],
   productNames: string[],
-  quantities: number[]
+  quantities: number[],
+  systemProducts: Product[]
 ): OrderItem[] => {
-  const systemProducts = getProducts();
-  
   return productIds.map((productId, index) => {
     const productName = productNames[index];
     const quantity = quantities[index];

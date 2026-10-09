@@ -5,9 +5,10 @@ import { ShippingSelect } from '../components/ShippingSelect';
 import { PaymentSelect } from '../components/PaymentSelect';
 import { OrderSummary } from '../components/OrderSummary';
 import { DiscountInput } from '../components/DiscountInput';
+import { OrderCart } from '../components/calculator/OrderCart';
 import { saveOrder, getOrderById } from '../services/orderService';
 import { useOrder } from '../hooks/useOrder';
-import { Loader2, User, Save } from 'lucide-react';
+import { Loader2, User, Save, Hash, Calculator as CalculatorIcon, ChevronUp } from 'lucide-react';
 
 export const Calculator = () => {
   const navigate = useNavigate();
@@ -124,102 +125,137 @@ export const Calculator = () => {
     );
   }
 
-  return (
-    <div className="py-8 pb-24">
-      <div className="max-w-3xl mx-auto px-4">
-        <h1 className="text-2xl font-bold mb-8">
-          {editOrderId ? 'Edit Order' : 'Order Profit Calculator'}
-        </h1>
+  const saveLabel = editOrderId ? 'Update order' : 'Save order';
+  const itemCount = orderItems.reduce((sum, item) => sum + item.quantity, 0);
+  const runningSubtotal = orderItems.reduce((sum, item) => sum + item.product.sellingPrice * item.quantity, 0);
 
-        <div className="space-y-8">
-          {/* Order Details Section */}
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold">Order Details</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-gray-100 pb-28 lg:pb-12">
+      {/* Header */}
+      <div className="border-b border-gray-200 bg-white">
+        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-6">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/25">
+            <CalculatorIcon className="h-6 w-6" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+              {editOrderId ? 'Edit Order' : 'New Order'}
+            </h1>
+            <p className="text-sm text-gray-500">Add products, pick shipping and payment, and see your profit live.</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-6 lg:grid-cols-12">
+        {/* Left column */}
+        <div className="space-y-6 lg:col-span-7 xl:col-span-8">
+          {/* Order details, shipping & payment */}
+          <section className="divide-y divide-gray-100 rounded-2xl bg-white shadow-sm ring-1 ring-gray-200/70">
+            <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2">
               <div>
-                <label htmlFor="orderNumber" className="block text-sm font-medium text-gray-700 mb-1">
-                  Order Number *
+                <label htmlFor="orderNumber" className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-gray-600">
+                  <Hash className="h-3.5 w-3.5 text-gray-400" />
+                  Order number <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="orderNumber"
                   type="text"
-                  placeholder="Enter Order Number"
+                  placeholder="Enter order number"
                   value={orderNumber}
                   onChange={(e) => setOrderNumber(e.target.value)}
-                  className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full rounded-xl border-0 bg-gray-50 px-3.5 py-2.5 text-sm font-semibold text-gray-900 ring-1 ring-gray-200 placeholder:font-normal placeholder:text-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="customerName" className="block text-sm font-medium text-gray-700 mb-1">
-                  <span className="flex items-center gap-1">
-                    <User className="h-4 w-4" />
-                    Customer Name (Optional)
-                  </span>
+                <label htmlFor="customerName" className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-gray-600">
+                  <User className="h-3.5 w-3.5 text-gray-400" />
+                  Customer name <span className="font-normal text-gray-400">(optional)</span>
                 </label>
                 <input
                   id="customerName"
                   type="text"
-                  placeholder="Enter Customer Name"
+                  placeholder="Enter customer name"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full rounded-xl border-0 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-900 ring-1 ring-gray-200 placeholder:text-gray-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
-          </div>
-          
-          {/* Shipping Section */}
-          <ShippingSelect
-            selected={shippingMethod}
-            onSelect={setShippingMethod}
-            onShippingMethodCostChange={setShippingMethodCost}
-            isFreeShipping={isFreeShipping}
-            onFreeShippingChange={setIsFreeShipping}
-          />
-          
-          {/* Payment Section */}
-          <PaymentSelect
-            selected={paymentMethod}
-            onSelect={setPaymentMethod}
-          />
-          
+            <div className="p-4">
+              <ShippingSelect
+                selected={shippingMethod}
+                onSelect={setShippingMethod}
+                onShippingMethodCostChange={setShippingMethodCost}
+                isFreeShipping={isFreeShipping}
+                onFreeShippingChange={setIsFreeShipping}
+              />
+            </div>
+            <div className="p-4">
+              <PaymentSelect
+                selected={paymentMethod}
+                onSelect={setPaymentMethod}
+              />
+            </div>
+          </section>
+
           {/* Products Section */}
           <ProductSelect
             orderItems={orderItems}
             onOrderItemsChange={setOrderItems}
           />
-          
-          {/* Discount Section */}
-          <DiscountInput onApplyDiscount={setDiscount} />
-          
-          {/* Order Summary */}
+
+          {/* Discount */}
+          <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-200/70">
+            <DiscountInput onApplyDiscount={setDiscount} activeDiscount={discount} />
+          </section>
+
+          {/* Profit sharing */}
           {order && <OrderSummary order={order} />}
         </div>
+
+        {/* Right column: order panel */}
+        <aside id="order-panel" className="scroll-mt-4 lg:col-span-5 xl:col-span-4">
+          <div className="lg:sticky lg:top-6">
+            <OrderCart
+              orderItems={orderItems}
+              onOrderItemsChange={setOrderItems}
+              order={order}
+              orderNumber={orderNumber}
+              isSaving={isSaving}
+              saveLabel={saveLabel}
+              onSave={handleSaveOrder}
+            />
+          </div>
+        </aside>
       </div>
 
-      {/* Floating Save Button */}
-      {order && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white bg-opacity-90 backdrop-blur-sm border-t border-gray-200 p-4 shadow-lg z-50">
-          <div className="max-w-3xl mx-auto px-4">
+      {/* Mobile bottom bar */}
+      {orderItems.length > 0 && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white/95 p-3 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.15)] backdrop-blur lg:hidden">
+          <div className="mx-auto flex max-w-3xl items-center gap-3">
+            <button
+              onClick={() => document.getElementById('order-panel')?.scrollIntoView({ behavior: 'smooth' })}
+              className="flex flex-1 items-center gap-2 text-left"
+            >
+              <span className="flex h-9 min-w-[36px] items-center justify-center rounded-xl bg-blue-50 px-2 text-sm font-bold text-blue-700">
+                {itemCount}
+              </span>
+              <span>
+                <span className="block text-[11px] text-gray-500">{order ? 'Customer pays' : 'Subtotal'}</span>
+                <span className="flex items-center gap-1 text-base font-bold tabular-nums text-gray-900">
+                  {(order ? order.total : runningSubtotal).toFixed(2)} SAR
+                  <ChevronUp className="h-4 w-4 text-gray-400" />
+                </span>
+              </span>
+            </button>
             <button
               onClick={handleSaveOrder}
-              disabled={isSaving}
-              className={`w-full flex items-center justify-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg transition-colors font-medium ${
-                isSaving 
-                  ? 'opacity-75 cursor-not-allowed' 
-                  : 'hover:bg-green-700'
-              }`}
+              disabled={isSaving || !order}
+              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 px-5 py-3 text-sm font-semibold text-white shadow-md disabled:from-gray-300 disabled:to-gray-300 disabled:shadow-none"
             >
-              <Save className="h-5 w-5" />
-              <span>
-                {isSaving 
-                  ? 'Saving...' 
-                  : editOrderId 
-                    ? 'Update Order' 
-                    : 'Save Order'
-                }
-              </span>
+              {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+              {isSaving ? 'Saving...' : saveLabel}
             </button>
           </div>
         </div>

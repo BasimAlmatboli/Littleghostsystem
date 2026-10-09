@@ -26,16 +26,14 @@ export const ProfitSharingReport: React.FC<ProfitSharingReportProps> = ({ orders
 
     return {
       yassirShare: acc.yassirShare + profitSharing.totalYassirShare,
-      ahmedShare: acc.ahmedShare + profitSharing.totalAhmedShare,
       manalShare: acc.manalShare + profitSharing.totalManalShare,
       abbasShare: acc.abbasShare + profitSharing.totalAbbasShare,
-      totalProfit: acc.totalProfit + (profitSharing.totalYassirShare + profitSharing.totalAhmedShare + profitSharing.totalManalShare + profitSharing.totalAbbasShare)
+      totalProfit: acc.totalProfit + (profitSharing.totalYassirShare + profitSharing.totalManalShare + profitSharing.totalAbbasShare)
     };
-  }, { yassirShare: 0, ahmedShare: 0, manalShare: 0, abbasShare: 0, totalProfit: 0 });
+  }, { yassirShare: 0, manalShare: 0, abbasShare: 0, totalProfit: 0 });
 
   // Calculate percentages
   const yassirPercentage = totalShares ? (totalShares.yassirShare / totalShares.totalProfit) * 100 : 0;
-  const ahmedPercentage = totalShares ? (totalShares.ahmedShare / totalShares.totalProfit) * 100 : 0;
   const manalPercentage = totalShares ? (totalShares.manalShare / totalShares.totalProfit) * 100 : 0;
   const abbasPercentage = totalShares ? (totalShares.abbasShare / totalShares.totalProfit) * 100 : 0;
 
@@ -68,19 +66,6 @@ export const ProfitSharingReport: React.FC<ProfitSharingReportProps> = ({ orders
             </p>
             <p className="text-sm text-blue-600">
               {yassirPercentage.toFixed(1)}% of total profit
-            </p>
-          </div>
-        </div>
-
-        {/* Ahmed's Share */}
-        <div className="bg-green-50 rounded-lg p-6">
-          <h3 className="text-lg font-medium text-green-800 mb-4">Ahmed's Total Share</h3>
-          <div className="space-y-2">
-            <p className="text-3xl font-bold text-green-700">
-              {totalShares?.ahmedShare.toFixed(2)} SAR
-            </p>
-            <p className="text-sm text-green-600">
-              {ahmedPercentage.toFixed(1)}% of total profit
             </p>
           </div>
         </div>

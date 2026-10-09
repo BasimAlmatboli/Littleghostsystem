@@ -6,7 +6,6 @@ import { Wallet } from 'lucide-react';
 interface EarningsReportProps {
   items: OrderItem[];
   totalYassirShare: number;
-  totalAhmedShare: number;
   totalManalShare: number;
   totalAbbasShare: number;
 }
@@ -14,11 +13,10 @@ interface EarningsReportProps {
 export const EarningsReport: React.FC<EarningsReportProps> = ({
   items,
   totalYassirShare,
-  totalAhmedShare,
   totalManalShare,
   totalAbbasShare,
 }) => {
-  const earnings = calculateTotalEarnings(items, totalYassirShare, totalAhmedShare, totalManalShare, totalAbbasShare);
+  const earnings = calculateTotalEarnings(items, totalYassirShare, totalManalShare, totalAbbasShare);
 
   return (
     <div className="mt-6 space-y-4">
@@ -44,26 +42,6 @@ export const EarningsReport: React.FC<EarningsReportProps> = ({
           <div className="mt-2 pt-2 border-t border-indigo-100">
             <span className="text-lg font-bold text-indigo-800">
               Total: {earnings.yassirTotalEarnings.toFixed(2)} SAR
-            </span>
-          </div>
-        </div>
-
-        {/* Ahmed's Earnings */}
-        <div className="space-y-2">
-          <h4 className="text-green-800 font-medium">Ahmed's Total Earnings</h4>
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <span className="text-green-600">Profit Share:</span>
-              <span className="ml-2 font-medium">{totalAhmedShare.toFixed(2)} SAR</span>
-            </div>
-            <div>
-              <span className="text-green-600">Products Cost:</span>
-              <span className="ml-2 font-medium">{earnings.ahmedProductsCost.toFixed(2)} SAR</span>
-            </div>
-          </div>
-          <div className="mt-2 pt-2 border-t border-green-100">
-            <span className="text-lg font-bold text-green-800">
-              Total: {earnings.ahmedTotalEarnings.toFixed(2)} SAR
             </span>
           </div>
         </div>

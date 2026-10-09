@@ -202,17 +202,11 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({ order, onC
                 {/* Profit Sharing */}
                 <div className="border-t border-gray-200 pt-4 mt-4">
                   <div className="text-sm font-medium text-gray-700 mb-2">Profit Sharing</div>
-                  <div className="grid grid-cols-4 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     <div>
                       <span className="text-indigo-600">Yassir's Share:</span>
                       <span className="float-right font-medium">
                         {profitSharing.totalYassirShare.toFixed(2)} SAR
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-green-600">Ahmed's Share:</span>
-                      <span className="float-right font-medium">
-                        {profitSharing.totalAhmedShare.toFixed(2)} SAR
                       </span>
                     </div>
                     <div>
