@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Discount } from '../types';
-import { Tag } from 'lucide-react';
+import { Tag, X, SlidersHorizontal } from 'lucide-react';
 
 interface DiscountInputProps {
   onApplyDiscount: (discount: Discount | null) => void;
+  activeDiscount?: Discount | null;
 }
 
 const PREDEFINED_DISCOUNTS: Discount[] = [
@@ -14,10 +15,14 @@ const PREDEFINED_DISCOUNTS: Discount[] = [
   { type: 'fixed', value: 79 },
 ];
 
-export const DiscountInput: React.FC<DiscountInputProps> = ({ onApplyDiscount }) => {
+const formatDiscount = (discount: Discount) =>
+  discount.type === 'percentage' ? `${discount.value}%` : `${discount.value} SAR`;
+
+export const DiscountInput: React.FC<DiscountInputProps> = ({ onApplyDiscount, activeDiscount = null }) => {
   const [discountType, setDiscountType] = useState<'percentage' | 'fixed'>('percentage');
   const [discountValue, setDiscountValue] = useState('');
   const [discountCode, setDiscountCode] = useState('');
+  const [showCustom, setShowCustom] = useState(false);
 
   const handleApplyDiscount = () => {
     if (!discountValue) {
@@ -56,103 +61,108 @@ export const DiscountInput: React.FC<DiscountInputProps> = ({ onApplyDiscount })
     onApplyDiscount(discount);
   };
 
+  const isActive = (discount: Discount) =>
+    !!activeDiscount && activeDiscount.type === discount.type && activeDiscount.value === discount.value && !activeDiscount.code;
+
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-semibold flex items-center gap-2">
-        <Tag className="h-5 w-5" />
-        <span>Discount</span>
-      </h2>
-      
-      <div className="bg-white rounded-lg shadow p-4 space-y-4">
-        {/* Predefined Discounts */}
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">Quick Apply</label>
-          <div className="flex flex-wrap gap-2">
-            {PREDEFINED_DISCOUNTS.map((discount, index) => (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-900">
+          <Tag className="h-4 w-4 text-gray-400" />
+          Discount
+        </h3>
+        {activeDiscount && (
+          <button
+            onClick={handleClearDiscount}
+            className="flex items-center gap-1 rounded-full bg-emerald-50 py-1 pl-2.5 pr-1.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-200 transition-colors hover:bg-emerald-100"
+            title="Remove discount"
+          >
+            {formatDiscount(activeDiscount)}{activeDiscount.code ? ` · ${activeDiscount.code}` : ''} applied
+            <X className="h-3.5 w-3.5" />
+          </button>
+        )}
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {PREDEFINED_DISCOUNTS.map((discount, index) => (
+          <button
+            key={index}
+            onClick={() => handlePredefinedDiscount(discount)}
+            className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${isActive(discount)
+                ? 'bg-emerald-600 text-white shadow-sm'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+          >
+            {formatDiscount(discount)}
+          </button>
+        ))}
+        <button
+          onClick={() => setShowCustom(!showCustom)}
+          className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium ring-1 transition-colors ${showCustom ? 'bg-blue-50 text-blue-700 ring-blue-200' : 'bg-white text-gray-600 ring-gray-200 hover:bg-gray-50'
+            }`}
+        >
+          <SlidersHorizontal className="h-3.5 w-3.5" />
+          Custom
+        </button>
+      </div>
+
+      {showCustom && (
+        <div className="space-y-3 rounded-xl bg-gray-50 p-3.5">
+          <div className="inline-flex rounded-lg bg-white p-0.5 ring-1 ring-gray-200">
+            {(['percentage', 'fixed'] as const).map(type => (
               <button
-                key={index}
-                onClick={() => handlePredefinedDiscount(discount)}
-                className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-full text-sm font-medium hover:bg-blue-100 transition-colors"
+                key={type}
+                onClick={() => setDiscountType(type)}
+                className={`rounded-md px-3 py-1 text-xs font-medium transition-colors ${discountType === type ? 'bg-gray-900 text-white' : 'text-gray-600 hover:text-gray-900'
+                  }`}
               >
-                {discount.type === 'percentage' ? `${discount.value}%` : `${discount.value} SAR`}
+                {type === 'percentage' ? 'Percentage (%)' : 'Fixed (SAR)'}
               </button>
             ))}
           </div>
-        </div>
 
-        <div className="flex gap-4">
-          <label className="flex items-center">
-            <input
-              type="radio"
-              checked={discountType === 'percentage'}
-              onChange={() => setDiscountType('percentage')}
-              className="mr-2"
-            />
-            Percentage (%)
-          </label>
-          <label className="flex items-center">
-            <input
-              type="radio"
-              checked={discountType === 'fixed'}
-              onChange={() => setDiscountType('fixed')}
-              className="mr-2"
-            />
-            Fixed Amount (SAR)
-          </label>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              {discountType === 'percentage' ? 'Discount Percentage' : 'Discount Amount'}
-            </label>
-            <div className="mt-1 relative rounded-md shadow-sm">
+          <div className="grid grid-cols-2 gap-2">
+            <div className="relative">
               <input
                 type="number"
                 value={discountValue}
                 onChange={(e) => setDiscountValue(e.target.value)}
-                className="block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                className="w-full rounded-lg border-0 bg-white py-2 pl-3 pr-10 text-sm ring-1 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder={discountType === 'percentage' ? '10' : '50'}
                 min="0"
                 step={discountType === 'percentage' ? '1' : '0.01'}
+                aria-label={discountType === 'percentage' ? 'Discount percentage' : 'Discount amount'}
               />
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <span className="text-gray-500 sm:text-sm">
-                  {discountType === 'percentage' ? '%' : 'SAR'}
-                </span>
-              </div>
+              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">
+                {discountType === 'percentage' ? '%' : 'SAR'}
+              </span>
             </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Discount Code (Optional)
-            </label>
             <input
               type="text"
               value={discountCode}
               onChange={(e) => setDiscountCode(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-              placeholder="SUMMER2024"
+              className="w-full rounded-lg border-0 bg-white px-3 py-2 text-sm ring-1 ring-gray-200 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Code (optional)"
+              aria-label="Discount code"
             />
           </div>
-        </div>
 
-        <div className="flex gap-2">
-          <button
-            onClick={handleApplyDiscount}
-            className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-          >
-            Apply Discount
-          </button>
-          <button
-            onClick={handleClearDiscount}
-            className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
-          >
-            Clear
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handleApplyDiscount}
+              className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            >
+              Apply discount
+            </button>
+            <button
+              onClick={handleClearDiscount}
+              className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-white hover:text-gray-900"
+            >
+              Clear
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

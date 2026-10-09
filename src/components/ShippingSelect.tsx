@@ -1,6 +1,6 @@
-import React from 'react';
 import { ShippingMethod } from '../types';
 import { getShippingMethods } from '../data/shipping';
+import { Truck } from 'lucide-react';
 
 interface ShippingSelectProps {
   selected: ShippingMethod | null;
@@ -10,93 +10,85 @@ interface ShippingSelectProps {
   onFreeShippingChange: (value: boolean) => void;
 }
 
-export const ShippingSelect: React.FC<ShippingSelectProps> = ({
+export const ShippingSelect = ({
   selected,
   onSelect,
   onShippingMethodCostChange,
   isFreeShipping,
   onFreeShippingChange,
-}) => {
+}: ShippingSelectProps) => {
   const shippingMethods = getShippingMethods();
-  
+
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h2 className="text-lg font-semibold">Shipping Method</h2>
-        <label className="flex items-center space-x-2 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={isFreeShipping}
-            onChange={(e) => onFreeShippingChange(e.target.checked)}
-            className="rounded text-blue-500 focus:ring-blue-500"
-          />
-          <span className="text-sm font-medium">Offer Free Shipping</span>
+    <div className="space-y-3">
+      <div className="flex items-center justify-between gap-3">
+        <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-900">
+          <Truck className="h-4 w-4 text-gray-400" />
+          Shipping
+        </h3>
+        <label className="flex cursor-pointer items-center gap-2">
+          <span className="text-xs font-medium text-gray-600">Free for customer</span>
+          <span className="relative inline-flex">
+            <input
+              type="checkbox"
+              checked={isFreeShipping}
+              onChange={(e) => onFreeShippingChange(e.target.checked)}
+              className="peer sr-only"
+            />
+            <span className="h-5 w-9 rounded-full bg-gray-200 transition-colors peer-checked:bg-emerald-500 peer-focus-visible:ring-2 peer-focus-visible:ring-blue-500 peer-focus-visible:ring-offset-2" />
+            <span className="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform peer-checked:translate-x-4" />
+          </span>
         </label>
       </div>
-      <div className="space-y-2">
-        {shippingMethods.map((method) => (
-          <label
-            key={method.id}
-            className={`flex items-center justify-between p-4 bg-white rounded-lg shadow cursor-pointer ${
-              selected?.id === method.id ? 'ring-2 ring-blue-500' : ''
-            }`}
-          >
-            <div className="flex items-center flex-1">
-              <input
-                type="radio"
-                name="shipping"
-                checked={selected?.id === method.id}
-                onChange={() => onSelect(method)}
-                className="mr-3"
-              />
-              <span>{method.name}</span>
-            </div>
-            <div className="text-right">
-              {isFreeShipping ? (
-                <div className="flex flex-col items-end">
-                  <span className="text-green-600 font-medium">Free</span>
-                  <span className="text-sm text-gray-400 line-through">
-                    {method.cost} SAR
-                  </span>
-                </div>
-              ) : (
-                <span className="text-gray-600">{method.cost} SAR</span>
-              )}
-            </div>
-          </label>
-        ))}
+
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {shippingMethods.map((method) => {
+          const isSelected = selected?.id === method.id;
+          return (
+            <button
+              key={method.id}
+              type="button"
+              onClick={() => onSelect(method)}
+              aria-pressed={isSelected}
+              className={`rounded-xl px-3 py-2.5 text-left ring-1 transition-all ${isSelected
+                  ? 'bg-blue-50 ring-2 ring-blue-500'
+                  : 'bg-white ring-gray-200 hover:bg-gray-50'
+                }`}
+            >
+              <span className={`block text-sm font-medium ${isSelected ? 'text-blue-800' : 'text-gray-900'}`}>{method.name}</span>
+              <span className="block text-xs text-gray-500">
+                {isFreeShipping && method.cost > 0 ? (
+                  <>
+                    <span className="line-through">{method.cost} SAR</span>{' '}
+                    <span className="font-medium text-emerald-600">Free</span>
+                  </>
+                ) : (
+                  `${method.cost} SAR`
+                )}
+              </span>
+            </button>
+          );
+        })}
       </div>
-      
+
       {/* Manual Cost Override */}
       {selected && (
-        <div className="mt-4 bg-blue-50 rounded-lg p-4">
-          <h3 className="text-sm font-medium text-blue-800 mb-2">
-            Customize Shipping Cost (This Order Only)
-          </h3>
-          <div className="flex items-center space-x-4">
-            <div className="flex-1">
-              <label className="block text-sm text-blue-700 mb-1">
-                Shipping Cost (SAR)
-              </label>
-              <input
-                type="number"
-                value={selected.cost}
-                onChange={(e) => onShippingMethodCostChange(Number(e.target.value) || 0)}
-                disabled={isFreeShipping}
-                className={`w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                  isFreeShipping ? 'bg-gray-100 text-gray-500' : 'bg-white'
-                }`}
-                step="0.01"
-                min="0"
-              />
-            </div>
-            <div className="text-sm text-blue-600">
-              {isFreeShipping ? (
-                <span className="text-green-600 font-medium">Free shipping applied</span>
-              ) : (
-                <span>Customer pays: {selected.cost} SAR</span>
-              )}
-            </div>
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-gray-50 px-3.5 py-2.5">
+          <label htmlFor="shippingCostOverride" className="text-xs font-medium text-gray-600">
+            Shipping cost for this order
+          </label>
+          <div className="relative w-28">
+            <input
+              id="shippingCostOverride"
+              type="number"
+              value={selected.cost}
+              onChange={(e) => onShippingMethodCostChange(Number(e.target.value) || 0)}
+              disabled={isFreeShipping}
+              className="w-full rounded-lg border-0 bg-white py-1.5 pl-2.5 pr-10 text-right text-sm font-semibold tabular-nums ring-1 ring-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-400"
+              step="0.01"
+              min="0"
+            />
+            <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] font-medium text-gray-400">SAR</span>
           </div>
         </div>
       )}

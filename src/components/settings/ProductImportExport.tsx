@@ -36,19 +36,19 @@ export const ProductImportExport: React.FC<ProductImportExportProps> = ({
     }
   };
 
+  const secondaryButton =
+    'flex items-center gap-2 rounded-xl bg-white px-3.5 py-2.5 text-sm font-medium text-gray-700 ring-1 ring-gray-200 transition-colors hover:bg-gray-50 hover:text-gray-900';
+
   return (
-    <div className="flex gap-4">
-      <button
-        onClick={handleExport}
-        className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-      >
-        <Download className="h-4 w-4" />
-        <span>Export Products</span>
+    <div className="flex gap-2">
+      <button onClick={handleExport} className={secondaryButton} title="Download products as CSV">
+        <Download className="h-4 w-4 text-gray-500" />
+        <span>Export</span>
       </button>
-      
-      <label className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer">
-        <Upload className="h-4 w-4" />
-        <span>Import Products</span>
+
+      <label className={`${secondaryButton} cursor-pointer`} title="Add products from a CSV file">
+        <Upload className="h-4 w-4 text-gray-500" />
+        <span>Import</span>
         <input
           ref={fileInputRef}
           type="file"
